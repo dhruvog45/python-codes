@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Programming Exercises</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; color: #333; }
+        h1 { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; }
+        .list-section { flex: 1; min-width: 300px; border-right: 2px solid #eee; padding-right: 20px; height: 80vh; overflow-y: auto; }
+        .code-section { flex: 2; min-width: 400px; padding-left: 10px; height: 80vh; overflow-y: auto;}
+        .exercise-item { cursor: pointer; padding: 10px; border: 1px solid #ccc; margin-bottom: 10px; border-radius: 5px; background: #f9f9f9; transition: 0.2s; }
+        .exercise-item:hover { background: #e9e9e9; border-color: #aaa; }
+        .exercise-title { font-weight: bold; color: #0056b3; margin: 0 0 5px 0; }
+        .exercise-desc { margin: 0; font-size: 0.9em; color: #555; }
+        pre { background-color: #282c34; color: #abb2bf; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: Consolas, monospace; }
+        .placeholder { color: #888; font-style: italic; margin-top: 50px; text-align: center; }
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+    </style>
+</head>
+<body>
+    <h1>Python Programming Exercises</h1>
+    <div class="container">
+        <div class="list-section" id="exercise-list">
+            <!-- List populated by JS -->
+        </div>
+        
+        <div class="code-section">
+            <div id="placeholder-msg" class="placeholder">
+                <h2>Select an exercise from the left to view its source code.</h2>
+            </div>
+            
+            <div id="code-display" style="display: none;">
+                <h2 id="ex-title"></h2>
+                <p id="ex-desc" style="color: #666; font-weight: bold;"></p>
+                <h3>Source Code:</h3>
+                <pre><code id="ex-code"></code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exercises = [
+            {
+                id: 1, title: "Personalized Greeting", desc: "Generate a personalized greeting for a student",
+                code: `# Exercise 1: Personalized Greeting\n\nname = input("Enter your name: ")\nbranch = input("Enter your branch: ")\ngreeting = f"Hello {name}! You are in the {branch} branch."\nprint(greeting)`
+            },
+            {
+                id: 2, title: "Calculate Perimeter", desc: "Calculate perimeter of circle, rectangle, and triangle",
+                code: `# Exercise 2: Calculate Perimeter\n\n# Circle perimeter\nradius = float(input("Enter radius of the circle: "))\ncircle_perimeter = 2 * 3.14 * radius\nprint(f"Circle perimeter (radius={radius}): {circle_perimeter}")\n\n# Rectangle perimeter\nlength = float(input("Enter length of the rectangle: "))\nwidth = float(input("Enter width of the rectangle: "))\nrectangle_perimeter = 2 * (length + width)\nprint(f"Rectangle perimeter ({length}x{width}): {rectangle_perimeter}")\n\n# Triangle perimeter\na = float(input("Enter side a of the triangle: "))\nb = float(input("Enter side b of the triangle: "))\nc = float(input("Enter side c of the triangle: "))\ntriangle_perimeter = a + b + c\nprint(f"Triangle perimeter ({a},{b},{c}): {triangle_perimeter}")`
+            },
+            {
+                id: 3, title: "Calculate Gross Salary", desc: "Calculate gross salary with allowances",
+                code: `# Exercise 3: Calculate Gross Salary\n\nbs = float(input("Enter Basic Salary: "))\n\n# Calculate allowances\nda = bs * 0.80  # Dearness Allowance (80%)\nta = bs * 0.20  # Travel Allowance (20%)\nhra = bs * 0.10  # House Rent Allowance (10%)\n\n# Calculate gross salary\ngross_salary = bs + da + ta + hra\n\n# Display results\nprint(f"Basic Salary: {bs}")\nprint(f"DA (80%): {da}")\nprint(f"TA (20%): {ta}")\nprint(f"HRA (10%): {hra}")\nprint(f"Gross Salary: {gross_salary}")`
+            },
+            {
+                id: 4, title: "Arithmetic Operations", desc: "Perform basic arithmetic operations",
+                code: `# Exercise 4: Arithmetic Operations\n\nnum1 = float(input("Enter first number: "))\nnum2 = float(input("Enter second number: "))\n\n# Perform arithmetic operations\naddition = num1 + num2\nsubtraction = num1 - num2\nmultiplication = num1 * num2\ndivision = num1 / num2\nmodulus = num1 % num2\n\n# Display results\nprint(f"Addition: {num1} + {num2} = {addition}")\nprint(f"Subtraction: {num1} - {num2} = {subtraction}")\nprint(f"Multiplication: {num1} * {num2} = {multiplication}")\nprint(f"Division: {num1} / {num2} = {division}")\nprint(f"Modulus: {num1} % {num2} = {modulus}")`
+            },
+            {
+                id: 5, title: "Task List - Add & Remove", desc: "Manage task list - add and remove tasks",
+                code: `# Exercise 5: Task List - Add and Remove\n\ntasks = []\n\n# Add tasks\ntask1 = input("Enter first task: ")\ntask2 = input("Enter second task: ")\ntask3 = input("Enter third task: ")\ntasks.append(task1)\ntasks.append(task2)\ntasks.append(task3)\n\nprint("Tasks:", tasks)\n\n# Remove a task\ntask_to_remove = input("Enter a task to remove: ")\nif task_to_remove in tasks:\n    tasks.remove(task_to_remove)\nelse:\n    print("Task not found!")\n\nprint("After removal:", tasks)`
+            },
+            {
+                id: 6, title: "Task List - Update & Sort", desc: "Manage task list - update and sort tasks",
+                code: `# Exercise 6: Task List - Update and Sort\n\ntasks = []\ntasks.append(input("Enter first task: "))\ntasks.append(input("Enter second task: "))\ntasks.append(input("Enter third task: "))\n\nprint("Original tasks:", tasks)\n\n# Update a task\nold_task = input("Enter the name of the task you want to update: ")\nif old_task in tasks:\n    index = tasks.index(old_task)\n    tasks[index] = input("Enter the new updated task: ")\nelse:\n    print("Task not found!")\n\nprint("After update:", tasks)\n\n# Sort tasks\ntasks.sort()\n\nprint("After sorting:", tasks)`
+            },
+            {
+                id: 7, title: "Set Operations - Union & Difference", desc: "Set operations for student enrollments",
+                code: `# Exercise 7: Set Operations - Union and Difference\n\ncet_students = {"Alice", "Bob", "Charlie", "Diana"}\njee_students = {"Bob", "Diana", "Eve", "Frank"}\n\nprint("CET Students:", cet_students)\nprint("JEE Students:", jee_students)\n\n# Union - all students in both exams\nunion_students = cet_students.union(jee_students)\nprint("Union (all students):", union_students)\n\n# Difference - students in CET but not JEE\ndifference_students = cet_students.difference(jee_students)\nprint("Difference (CET - JEE):", difference_students)`
+            },
+            {
+                id: 8, title: "Set Operations - Intersection", desc: "Set intersection and difference operations",
+                code: `# Exercise 8: Set Operations - Intersection and Difference\n\ncet_students = {"Alice", "Bob", "Charlie", "Diana"}\njee_students = {"Bob", "Diana", "Eve", "Frank"}\n\nprint("CET Students:", cet_students)\nprint("JEE Students:", jee_students)\n\n# Intersection - common students\ncommon_students = cet_students.intersection(jee_students)\nprint("Intersection (common students):", common_students)\n\n# Difference - students in CET but not JEE\ndifference_students = cet_students.difference(jee_students)\nprint("Difference (CET - JEE):", difference_students)`
+            },
+            {
+                id: 9, title: "Student Records Dictionary", desc: "Create and manipulate student records",
+                code: `# Exercise 9: Student Records Dictionary\n\nstudents = {\n    "Alice": {"grade": "A", "attendance": 95},\n    "Bob": {"grade": "B", "attendance": 88},\n    "Charlie": {"grade": "A", "attendance": 92},\n    "Diana": {"grade": "C", "attendance": 75}\n}\n\nprint("Original Records:")\nfor name, info in students.items():\n    print(f"{name}: Grade={info['grade']}, Attendance={info['attendance']}%")\n\n# Update Bob's record\nstudents["Bob"]["grade"] = "A"\nstudents["Bob"]["attendance"] = 90\n\n# Add new student\nstudents["Eve"] = {"grade": "B", "attendance": 85}\n\nprint("\\nUpdated Records:")\nfor name, info in students.items():\n    print(f"{name}: Grade={info['grade']}, Attendance={info['attendance']}%")`
+            },
+            {
+                id: 10, title: "Divisible by 3", desc: "Check if number is divisible by 3",
+                code: `# Exercise 10: Divisible by 3\n\nnum = float(input("Enter a number to check if it is divisible by 3: "))\n\nif num % 3 == 0:\n    print(f"{num} is divisible by 3")\nelse:\n    print(f"{num} is NOT divisible by 3")`
+            },
+            {
+                id: 11, title: "Factorial Calculator", desc: "Compute factorial of a number",
+                code: `# Exercise 11: Factorial\n\ndef factorial(n):\n    if n < 0:\n        return "Factorial not defined for negative numbers"\n    if n == 0 or n == 1:\n        return 1\n    result = 1\n    for i in range(2, n + 1):\n        result = result * i\n    return result\n\n# Test factorial\nnum = int(input("Enter an integer to find its factorial: "))\nprint(f"Factorial of {num}: {factorial(num)}")`
+            },
+            {
+                id: 12, title: "Prime Number Check", desc: "Check if a number is prime",
+                code: `# Exercise 12: Prime Number Check\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True\n\n# Test prime number\nnum = float(input("Enter a number to check if it is prime: "))\n\n# Convert to int for prime checking (range requires integers)\nif is_prime(int(num)):\n    print(f"{num} is a prime number")\nelse:\n    print(f"{num} is NOT a prime number")`
+            },
+            {
+                id: 13, title: "Simple Calculator", desc: "Basic calculator operations",
+                code: `# Exercise 13: Simple Calculator\n\ndef calculator(num1, num2, operation):\n    if operation == "+":\n        return num1 + num2\n    elif operation == "-":\n        return num1 - num2\n    elif operation == "*":\n        return num1 * num2\n    elif operation == "/":\n        if num2 != 0:\n            return num1 / num2\n        else:\n            return "Cannot divide by zero"\n    else:\n        return "Invalid operation"\n\n# Test calculator\nnum1 = float(input("Enter first number: "))\nnum2 = float(input("Enter second number: "))\noperation = input("Enter operation (+, -, *, /): ")\nprint(f"Result: {calculator(num1, num2, operation)}")`
+            },
+            {
+                id: 14, title: "Division Error Handling", desc: "Handle division by zero",
+                code: `# Exercise 14: Division with Error Handling\n\ndef divide_numbers(num1, num2):\n    try:\n        result = float(num1) / float(num2)\n        return f"Result: {result}"\n    except ZeroDivisionError:\n        return "Error: Cannot divide by zero!"\n    except ValueError:\n        return "Error: Please enter numbers only"\n\n# Test division\nnum1 = input("Enter numerator: ")\nnum2 = input("Enter denominator: ")\nprint(f"{num1} / {num2} = {divide_numbers(num1, num2)}")`
+            },
+            {
+                id: 15, title: "Classes and Objects", desc: "Demonstrate classes with __init__",
+                code: `# Exercise 15: Classes and Objects\n\nclass Student:\n    def __init__(self, name, roll_no, marks):\n        self.name = name\n        self.roll_no = roll_no\n        self.marks = marks\n    \n    def display_info(self):\n        return f"Name: {self.name}, Roll No: {self.roll_no}, Marks: {self.marks}"\n\n# Create student objects\nstudent1 = Student("Alice", 101, 95)\nstudent2 = Student("Bob", 102, 87)\nstudent3 = Student("Charlie", 103, 92)\n\n# Display student information\nstudents = [student1, student2, student3]\nfor student in students:\n    print(student.display_info())`
+            },
+            {
+                id: 16, title: "1D NumPy Array", desc: "Create, index, and reshape 1D arrays",
+                code: `# Exercise 16: 1D NumPy Array\nimport numpy as np\n\n# Create 1D array\narr = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])\nprint("Original 1D array:", arr)\n\n# Indexing\nprint("\\n--- Indexing ---")\nprint("First element:", arr[0])\nprint("Last element:", arr[-1])\nprint("Elements from index 2 to 5:", arr[2:6])\n\n# Reshaping\nprint("\\n--- Reshaping ---")\nprint("Reshaped to 3x4:\\n", arr.reshape(3, 4))\nprint("Reshaped to 2x6:\\n", arr.reshape(2, 6))`
+            },
+            {
+                id: 17, title: "2D NumPy Array", desc: "Create, index, and reshape 2D arrays",
+                code: `# Exercise 17: 2D NumPy Array\nimport numpy as np\n\n# Create 2D array\narr = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])\nprint("Original 2D array:\\n", arr)\n\n# Indexing\nprint("\\n--- Indexing ---")\nprint("Element at row 1, col 2:", arr[1, 2])\nprint("First row:", arr[0, :])\nprint("Last column:", arr[:, -1])\n\n# Reshaping\nprint("\\n--- Reshaping ---")\nprint("Flattened to 1D:", arr.reshape(-1))\nprint("Reshaped to 2x6:\\n", arr.reshape(2, 6))`
+            },
+            {
+                id: 18, title: "3D NumPy Array", desc: "Create, index, and reshape 3D arrays",
+                code: `# Exercise 18: 3D NumPy Array\nimport numpy as np\n\n# Create 3D array\narr = np.arange(24).reshape(2, 3, 4)\nprint("Original 3D array (2 blocks, 3 rows, 4 cols):\\n", arr)\n\n# Indexing\nprint("\\n--- Indexing ---")\nprint("Element at block 1, row 2, col 3:", arr[1, 2, 3])\nprint("First block entirely:\\n", arr[0])\nprint("First row of second block:", arr[1, 0, :])\n\n# Reshaping\nprint("\\n--- Reshaping ---")\nprint("Reshaped to 2D (6x4):\\n", arr.reshape(6, 4))\nprint("Flattened to 1D:", arr.flatten())`
+            },
+            {
+                id: 19, title: "Element-wise Addition", desc: "Add arrays element by element",
+                code: `# Exercise 19: Element-wise Addition\nimport numpy as np\n\n# Create arrays\narr1 = np.array([1, 2, 3, 4, 5])\narr2 = np.array([5, 4, 3, 2, 1])\n\nprint("Array 1:", arr1)\nprint("Array 2:", arr2)\n\n# Element-wise addition\naddition = arr1 + arr2\n\nprint("Element-wise Addition:", addition)`
+            },
+            {
+                id: 20, title: "Statistics - Mean/Median/StdDev", desc: "Calculate statistics on arrays",
+                code: `# Exercise 20: Mean, Median, and Standard Deviation\nimport numpy as np\n\n# Create array\narr = np.array([10, 20, 30, 40, 50, 60, 70, 80, 90])\n\nprint("Array:", arr)\nprint("Mean:", np.mean(arr))\nprint("Median:", np.median(arr))\nprint("Standard Deviation:", np.std(arr))`
+            }
+        ];
+
+        const listElement = document.getElementById("exercise-list");
+        const codeDisplay = document.getElementById("code-display");
+        const placeholderMsg = document.getElementById("placeholder-msg");
+        
+        exercises.forEach(ex => {
+            const div = document.createElement("div");
+            div.className = "exercise-item";
+            div.innerHTML = `
+                <p class="exercise-title">Exercise ${ex.id}: ${ex.title}</p>
+                <p class="exercise-desc">${ex.desc}</p>
+            `;
+            div.onclick = () => {
+                document.getElementById("ex-title").textContent = `Exercise ${ex.id}: ${ex.title}`;
+                document.getElementById("ex-desc").textContent = ex.desc;
+                document.getElementById("ex-code").textContent = ex.code;
+                
+                placeholderMsg.style.display = "none";
+                codeDisplay.style.display = "block";
+            };
+            listElement.appendChild(div);
+        });
+    </script>
+</body>
+</html>
